@@ -10,6 +10,9 @@
         "test": "jest",
         "prisma:init": "npx prisma init",
         "prisma:generate": "npx prisma generate",
+        "prisma:seed": "ts-node --transpile-only prisma/seed.ts",
+        "prisma:seed:build": "npm run build && node dist/prisma/seed.js",
+        "prisma:seed:only": "npx tsc prisma/seed.ts --outDir dist/prisma --target es5 --module commonjs --esModuleInterop --skipLibCheck && node dist/prisma/seed.js",
         "start:prod": "npm run build && npm start"
     },
     "keywords": [],

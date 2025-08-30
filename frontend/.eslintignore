@@ -1,0 +1,9 @@
+# Ignorar directorio de Cypress
+cypress/
+cypress.d.ts
+
+# Otros archivos a ignorar
+node_modules/
+build/
+dist/
+*.min.js
