@@ -1,0 +1,40 @@
+{
+  "candidates": {
+    "valid": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "phone": "+1234567890",
+      "address": "123 Main St, City, State 12345"
+    },
+    "invalid": {
+      "firstName": "",
+      "lastName": "",
+      "email": "invalid-email",
+      "phone": "",
+      "address": ""
+    }
+  },
+  "positions": {
+    "valid": {
+      "title": "Senior Software Engineer",
+      "description": "We are looking for a senior software engineer...",
+      "requirements": "5+ years of experience, React, Node.js",
+      "location": "Remote",
+      "salaryMin": 80000,
+      "salaryMax": 120000
+    }
+  },
+  "companies": {
+    "valid": {
+      "name": "TechCorp Inc",
+      "description": "A leading technology company"
+    }
+  },
+  "users": {
+    "recruiter": {
+      "email": "recruiter@company.com",
+      "role": "recruiter"
+    }
+  }
+}

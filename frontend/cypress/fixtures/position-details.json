@@ -1,0 +1,80 @@
+{
+  "interviewFlow": {
+    "interviewFlow": {
+      "interviewFlow": {
+        "interviewSteps": [
+          {
+            "id": 1,
+            "name": "Aplicación Recibida",
+            "description": "Candidato ha enviado su aplicación"
+          },
+          {
+            "id": 2,
+            "name": "Entrevista Inicial",
+            "description": "Primera entrevista con el candidato"
+          },
+          {
+            "id": 3,
+            "name": "Entrevista Técnica",
+            "description": "Evaluación técnica del candidato"
+          },
+          {
+            "id": 4,
+            "name": "Oferta",
+            "description": "Oferta de trabajo para el candidato"
+          }
+        ]
+      },
+      "positionName": "Senior Software Engineer"
+    }
+  },
+  "candidates": [
+    {
+      "candidateId": 1,
+      "fullName": "John Doe",
+      "averageScore": 4,
+      "applicationId": 1,
+      "currentInterviewStep": "Aplicación Recibida",
+      "email": "john.doe@example.com",
+      "phone": "+1234567890"
+    },
+    {
+      "candidateId": 2,
+      "fullName": "Jane Smith",
+      "averageScore": 5,
+      "applicationId": 2,
+      "currentInterviewStep": "Entrevista Inicial",
+      "email": "jane.smith@example.com",
+      "phone": "+1234567891"
+    },
+    {
+      "candidateId": 3,
+      "fullName": "Bob Johnson",
+      "averageScore": 3,
+      "applicationId": 3,
+      "currentInterviewStep": "Entrevista Técnica",
+      "email": "bob.johnson@example.com",
+      "phone": "+1234567892"
+    },
+    {
+      "candidateId": 4,
+      "fullName": "Alice Brown",
+      "averageScore": 5,
+      "applicationId": 4,
+      "currentInterviewStep": "Oferta",
+      "email": "alice.brown@example.com",
+      "phone": "+1234567893"
+    }
+  ],
+  "position": {
+    "id": 1,
+    "title": "Senior Software Engineer",
+    "description": "We are looking for a senior software engineer with experience in React and Node.js",
+    "requirements": "5+ years of experience, React, Node.js, TypeScript",
+    "location": "Remote",
+    "salaryMin": 80000,
+    "salaryMax": 120000,
+    "status": "Active",
+    "isVisible": true
+  }
+}
