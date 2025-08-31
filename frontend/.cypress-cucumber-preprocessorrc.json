@@ -1,0 +1,10 @@
+{
+  "stepDefinitions": [
+    "cypress/e2e/step-definitions/**/*.{js,ts}",
+    "cypress/support/step_definitions/**/*.{js,ts}"
+  ],
+  "features": "cypress/e2e/features/**/*.feature",
+  "messages": {
+    "enabled": true
+  }
+}
