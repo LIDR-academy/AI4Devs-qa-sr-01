@@ -78,24 +78,72 @@ const PositionsDetails = () => {
     };
 
     const onDragEnd = (result) => {
+        console.log('onDragEnd called with result:', result);
+        
         const { source, destination } = result;
 
         if (!destination) {
+            console.log('No destination, returning early');
             return;
         }
 
-        const sourceStage = stages[source.droppableId];
-        const destStage = stages[destination.droppableId];
+        console.log('Source:', source);
+        console.log('Destination:', destination);
 
-        const [movedCandidate] = sourceStage.candidates.splice(source.index, 1);
-        destStage.candidates.splice(destination.index, 0, movedCandidate);
+        // Extraer el ID de la etapa del droppableId (formato: "stage-{id}")
+        const sourceStageId = parseInt(source.droppableId.replace('stage-', ''));
+        const destStageId = parseInt(destination.droppableId.replace('stage-', ''));
+        
+        console.log('Source Stage ID:', sourceStageId);
+        console.log('Destination Stage ID:', destStageId);
+        
+        // Encontrar las etapas por ID
+        const sourceStageIndex = stages.findIndex(stage => stage.id === sourceStageId);
+        const destStageIndex = stages.findIndex(stage => stage.id === destStageId);
 
-        setStages([...stages]);
+        console.log('Source Stage Index:', sourceStageIndex);
+        console.log('Destination Stage Index:', destStageIndex);
 
-        const destStageId = stages[destination.droppableId].id;
+        if (sourceStageIndex === -1 || destStageIndex === -1) {
+            console.log('Invalid stage indices, returning early');
+            return;
+        }
 
+        // Crear una copia profunda del estado para evitar mutaciones
+        const newStages = stages.map(stage => ({
+            ...stage,
+            candidates: [...stage.candidates]
+        }));
+
+        console.log('Moving candidate from source to destination');
+        
+        // Mover el candidato
+        const [movedCandidate] = newStages[sourceStageIndex].candidates.splice(source.index, 1);
+        newStages[destStageIndex].candidates.splice(destination.index, 0, movedCandidate);
+
+        console.log('Moved candidate:', movedCandidate);
+        console.log('New stages:', newStages);
+
+        // Actualizar el estado
+        setStages(newStages);
+
+        // Llamar a la API para actualizar el candidato
+        console.log('Calling API to update candidate step');
         updateCandidateStep(movedCandidate.id, movedCandidate.applicationId, destStageId);
     };
+
+    // Exponer la función onDragEnd globalmente para testing
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.onDragEnd = onDragEnd;
+        }
+        
+        return () => {
+            if (typeof window !== 'undefined') {
+                delete window.onDragEnd;
+            }
+        };
+    }, [stages]);
 
     const handleCardClick = (candidate) => {
         setSelectedCandidate(candidate);

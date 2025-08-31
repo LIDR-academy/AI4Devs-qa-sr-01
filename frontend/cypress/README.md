@@ -18,7 +18,9 @@ cypress/
 │   │   └── recruiter-dashboard.cy.ts
 │   ├── positions/               # Tests de gestión de posiciones
 │   │   ├── position-management.cy.ts
-│   │   └── position-details-loading.cy.ts    # ✅ IMPLEMENTADO
+│   │   ├── position-details-loading.cy.ts    # ✅ IMPLEMENTADO
+│   │   ├── candidate-stage-change.cy.ts     # ✅ IMPLEMENTADO - Drag & Drop
+│   │   └── drag-and-drop-specific.cy.ts     # ✅ IMPLEMENTADO - Tests específicos D&D
 │   └── workflow/                # Tests de flujo de trabajo
 │       └── candidate-workflow.cy.ts
 ├── fixtures/                    # Datos de prueba
@@ -50,30 +52,33 @@ Este test verifica la carga correcta de la página de detalles de una posición:
 5. **Navegación**: Verifica que el botón de volver funciona correctamente
 6. **Manejo de Listas Vacías**: Verifica el comportamiento cuando no hay candidatos
 
-**Estructura del Test:**
-```typescript
-describe('Position Details Page Loading', () => {
-  // Setup con mocks de API
-  beforeEach(() => {
-    cy.intercept('GET', '**/positions/1/interviewFlow', { fixture: 'position-details.json' })
-    cy.intercept('GET', '**/positions/1/candidates', { fixture: 'position-details.json' })
-    cy.visit('/positions/1')
-  })
-  
-  // Tests individuales para cada funcionalidad
-  it('should display the position title correctly')
-  it('should display interview stage columns for each phase')
-  it('should display candidate cards in the correct columns')
-  it('should handle empty candidate lists gracefully')
-  it('should display navigation elements correctly')
-  it('should display candidate ratings correctly')
-})
-```
+### **✅ Candidate Stage Change (`candidate-stage-change.cy.ts`)**
 
-**Datos de Prueba:**
-- **Posición**: Senior Software Engineer
-- **Fases**: Aplicación Recibida, Entrevista Inicial, Entrevista Técnica, Oferta
-- **Candidatos**: 4 candidatos distribuidos en diferentes fases con ratings variados
+Este test verifica la funcionalidad de cambio de fase de candidatos mediante drag & drop:
+
+**Funcionalidades Verificadas:**
+1. **Drag & Drop Básico**: Mover candidatos entre columnas de fase
+2. **Llamadas a API**: Verificar que se llama al endpoint PUT `/candidates/:id`
+3. **Múltiples Movimientos**: Manejar múltiples cambios de fase
+4. **Orden de Candidatos**: Mantener el orden dentro de las columnas
+5. **Operaciones Inválidas**: Manejar drag & drop a áreas no válidas
+6. **Actualización de UI**: Verificar que la interfaz se actualiza inmediatamente
+
+**Endpoints Verificados:**
+- **PUT** `/candidates/{id}` - Actualización de fase del candidato
+- **GET** `/positions/{id}/interviewFlow` - Flujo de entrevistas
+- **GET** `/positions/{id}/candidates` - Candidatos por posición
+
+### **✅ Drag & Drop Specific Tests (`drag-and-drop-specific.cy.ts`)**
+
+Tests específicos para la funcionalidad de drag & drop usando react-beautiful-dnd:
+
+**Funcionalidades Verificadas:**
+1. **Elementos Draggable**: Verificar atributos de react-beautiful-dnd
+2. **Coordenadas Precisas**: Drag & drop usando coordenadas calculadas
+3. **Accesibilidad**: Navegación con teclado
+4. **Feedback Visual**: Estados visuales durante el drag
+5. **Persistencia**: Mantener estado después de recargar la página
 
 ## **Configuración de Cypress**
 
@@ -88,7 +93,7 @@ export default defineConfig({
     viewportWidth: 1280,
     viewportHeight: 720,
     env: {
-      apiUrl: 'http://localhost:3001'        // URL del backend
+      apiUrl: 'http://localhost:3010'        // URL del backend (actualizada)
     }
   },
   component: {
@@ -105,7 +110,7 @@ export default defineConfig({
 ### **Variables de Entorno**
 
 - **Frontend**: `http://localhost:3000` (React development server)
-- **Backend**: `http://localhost:3001` (Express server)
+- **Backend**: `http://localhost:3010` (Express server) - ✅ **ACTUALIZADO**
 - **Base de Datos**: PostgreSQL (configurada en docker-compose)
 
 ## **Tipos de Tests**
@@ -117,6 +122,8 @@ Los tests E2E simulan el comportamiento completo del usuario a través de toda l
 - **`candidate-management.cy.ts`**: Gestión completa de candidatos
 - **`position-management.cy.ts`**: Gestión de posiciones y ofertas
 - **`position-details-loading.cy.ts`**: ✅ **IMPLEMENTADO** - Carga de página de detalles de posición
+- **`candidate-stage-change.cy.ts`**: ✅ **IMPLEMENTADO** - Cambio de fase de candidatos
+- **`drag-and-drop-specific.cy.ts`**: ✅ **IMPLEMENTADO** - Tests específicos de drag & drop
 - **`recruiter-dashboard.cy.ts`**: Dashboard principal del reclutador
 - **`candidate-workflow.cy.ts`**: Flujo de trabajo de candidatos
 
@@ -249,6 +256,24 @@ cy.request('POST', '/api/candidates', candidateData)
 cy.intercept('GET', '/api/candidates', { fixture: 'candidates.json' })
 ```
 
+### **4. Drag & Drop Testing**
+
+```typescript
+// Simular drag & drop
+cy.get('[data-testid="candidate-card"]')
+  .first()
+  .trigger('mousedown', { button: 0 })
+  .trigger('mousemove', { clientX: 400, clientY: 300 })
+  .trigger('mouseup')
+
+// Verificar llamadas a API
+cy.wait('@updateCandidateStage')
+cy.get('@updateCandidateStage').its('request.body').should('deep.equal', {
+  applicationId: 1,
+  currentInterviewStep: 2
+})
+```
+
 ## **Mejores Prácticas**
 
 ### **1. Nomenclatura y Organización**
@@ -293,6 +318,21 @@ afterEach(() => {
 })
 ```
 
+### **5. Drag & Drop Testing**
+
+```typescript
+// ✅ Bueno: Usar coordenadas calculadas
+cy.get('[data-testid="stage-column"]').eq(0).then(($sourceCol) => {
+  const sourceRect = $sourceCol[0].getBoundingClientRect()
+  const startX = sourceRect.left + sourceRect.width / 2
+  // ... realizar drag & drop
+})
+
+// ✅ Bueno: Verificar llamadas a API
+cy.wait('@updateCandidateStage')
+cy.get('@updateCandidateStage').its('request.body').should('deep.equal', expectedData)
+```
+
 ## **Integración con CI/CD**
 
 ### **Scripts de Package.json**
@@ -329,7 +369,7 @@ npm run cypress:open
 npm run cypress:run
 
 # Ejecutar tests específicos
-npx cypress run --spec "cypress/e2e/positions/position-details-loading.cy.ts"
+npx cypress run --spec "cypress/e2e/positions/candidate-stage-change.cy.ts"
 ```
 
 ### **Logs y Screenshots**
@@ -343,6 +383,7 @@ npx cypress run --spec "cypress/e2e/positions/position-details-loading.cy.ts"
 1. **Timing Issues**: Usar `cy.wait()` o assertions de estado
 2. **Data Isolation**: Asegurar limpieza de datos entre tests
 3. **Environment Variables**: Verificar configuración de URLs
+4. **Drag & Drop**: Verificar coordenadas y eventos del mouse
 
 ## **Mantenimiento y Evolución**
 
@@ -365,6 +406,7 @@ npx cypress run --spec "cypress/e2e/positions/position-details-loading.cy.ts"
 - [Mejores prácticas de testing](https://docs.cypress.io/guides/references/best-practices)
 - [Patrones de testing](https://docs.cypress.io/guides/references/testing-strategies)
 - [API de Cypress](https://docs.cypress.io/api/api/table-of-contents)
+- [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 
 ---
 

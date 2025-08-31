@@ -25,4 +25,13 @@
 
 arregla los tests
 
-4.- 
+4.- ejecuta los 2 tests creados y arregla si encuentras errores
+
+5.-  (Encontró errores en uno de los tests, algo relacionado el drag and drop)
+
+en el browser sí me funciona bien el drag and drop. 
+- intenta arreglar el test.
+
+6.- 
+
+ejecuta el test principal

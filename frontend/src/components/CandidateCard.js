@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { Draggable } from 'react-beautiful-dnd';
 
 const CandidateCard = ({ candidate, index, onClick }) => (
-    <Draggable key={candidate.id} draggableId={candidate.id} index={index}>
+    <Draggable draggableId={candidate.id} index={index}>
         {(provided) => (
             <Card
                 className="mb-2"
