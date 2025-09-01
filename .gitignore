@@ -12,6 +12,12 @@
 # testing
 **/coverage
 
+# Cypress artifacts (NO subir al repo)
+**/cypress/videos/
+**/cypress/screenshots/
+**/cypress/downloads/
+**/cypress/fixtures/example.json
+
 # production
 **/build
 **/dist

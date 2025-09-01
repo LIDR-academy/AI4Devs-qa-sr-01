@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference types="@4tw/cypress-drag-drop" />
 
 // Custom command declarations
 declare global {
@@ -81,8 +82,8 @@ Cypress.Commands.add("loginAsUser", () => {
 });
 
 /**
- * Robust drag and drop for react-beautiful-dnd
- * Specifically designed to work with react-beautiful-dnd library
+ * Hybrid drag and drop: Plugin for visual + Manual events for API
+ * Combines the reliability of @4tw/cypress-drag-drop with manual event triggering
  */
 Cypress.Commands.add(
   "dragAndDrop",
@@ -90,44 +91,61 @@ Cypress.Commands.add(
     cy.get(sourceSelector).should("be.visible");
     cy.get(targetSelector).should("be.visible");
 
-    // Get the source element (candidate card)
+    // Step 1: Use the official plugin for visual drag & drop
+    cy.get(sourceSelector).drag(targetSelector, {
+      force: true,
+      timeout: 15000,
+    });
+
+    // Step 2: Wait for visual completion
+    cy.wait(2000);
+
+    // Step 3: Manually trigger the events that react-beautiful-dnd expects
+    // This ensures the API call is triggered even if the plugin doesn't
     cy.get(sourceSelector).then(($source) => {
-      // Get the target element (destination stage)
+      const sourceEl = $source[0];
+
+      // Create and dispatch the events that react-beautiful-dnd needs
+      const dragEndEvent = new Event("dragend", { bubbles: true });
+      const dropEvent = new Event("drop", { bubbles: true });
+
+      // Set up dataTransfer for the events
+      Object.defineProperty(dragEndEvent, "dataTransfer", {
+        value: {
+          setData: () => {},
+          getData: () => "",
+          types: [],
+          files: [],
+          effectAllowed: "all",
+          dropEffect: "move",
+        },
+      });
+
+      Object.defineProperty(dropEvent, "dataTransfer", {
+        value: {
+          setData: () => {},
+          getData: () => "",
+          types: [],
+          files: [],
+          effectAllowed: "all",
+          dropEffect: "move",
+        },
+      });
+
+      // Dispatch the events
+      sourceEl.dispatchEvent(dragEndEvent);
+      cy.wait(500);
+
+      // Also try to trigger on the target
       cy.get(targetSelector).then(($target) => {
-        const sourceCoords = $source[0].getBoundingClientRect();
-        const targetCoords = $target[0].getBoundingClientRect();
-
-        // Start the drag operation
-        cy.get(sourceSelector)
-          .trigger("mousedown", {
-            which: 1,
-            pageX: sourceCoords.x + sourceCoords.width / 2,
-            pageY: sourceCoords.y + sourceCoords.height / 2,
-          })
-          .wait(100); // Small delay for react-beautiful-dnd to register
-
-        // Move to target position
-        cy.get(sourceSelector)
-          .trigger("mousemove", {
-            which: 1,
-            pageX: targetCoords.x + targetCoords.width / 2,
-            pageY: targetCoords.y + targetCoords.height / 2,
-          })
-          .wait(100); // Allow time for drag feedback
-
-        // Complete the drop with more events
-        cy.get(targetSelector)
-          .trigger("mouseover")
-          .trigger("mouseup", {
-            pageX: targetCoords.x + targetCoords.width / 2,
-            pageY: targetCoords.y + targetCoords.height / 2,
-          })
-          .trigger("drop");
-
-        // Wait longer for react-beautiful-dnd to process and trigger API
-        cy.wait(2000);
+        const targetEl = $target[0];
+        targetEl.dispatchEvent(dropEvent);
+        cy.wait(1000);
       });
     });
+
+    // Step 4: Final wait for any API calls
+    cy.wait(2000);
   }
 );
 
@@ -153,5 +171,8 @@ Cypress.Commands.add("cleanDatabase", () => {
   // Placeholder - will be implemented with proper backend integration
   cy.log("Database cleanup - to be implemented");
 });
+
+// Import cypress-drag-drop plugin
+import "@4tw/cypress-drag-drop";
 
 export {};
