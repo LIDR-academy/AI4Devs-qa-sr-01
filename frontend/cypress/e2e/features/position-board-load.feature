@@ -1,10 +1,7 @@
 Feature: Position Board Loading
-  As a recruiter
+  As a user
   I want to see the position board with candidates organized by interview phases
   So that I can track the recruitment process
-
-  Background:
-    Given I am logged in as a recruiter
 
   Scenario: Load position board successfully
     When I visit position "1" board
