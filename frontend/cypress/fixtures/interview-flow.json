@@ -1,0 +1,29 @@
+{
+  "interviewFlow": {
+    "positionName": "Frontend Developer",
+    "interviewFlow": {
+      "interviewSteps": [
+        {
+          "id": 1,
+          "name": "Aplicación Inicial"
+        },
+        {
+          "id": 2,
+          "name": "Screening"
+        },
+        {
+          "id": 3,
+          "name": "Entrevista Técnica"
+        },
+        {
+          "id": 4,
+          "name": "Entrevista Final"
+        },
+        {
+          "id": 5,
+          "name": "Contratado"
+        }
+      ]
+    }
+  }
+}

@@ -29,7 +29,16 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --config jest.config.js",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:headless": "cypress run --headless",
+    "e2e": "cypress run",
+    "e2e:open": "cypress open",
+    "e2e:smoke": "cypress run --spec \"cypress/e2e/smoke-test.cy.ts\" --headless",
+    "e2e:positions": "cypress run --spec \"cypress/e2e/positions.cy.ts\" --headless",
+    "e2e:position-spec": "cypress run --spec \"cypress/e2e/position.spec.js\" --headless",
+    "test:cypress": "powershell -ExecutionPolicy Bypass -File scripts/test-e2e.ps1"
   },
   "eslintConfig": {
     "extends": [
@@ -48,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^15.0.0"
   }
 }

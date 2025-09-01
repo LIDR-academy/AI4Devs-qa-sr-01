@@ -1,0 +1,23 @@
+[
+  {
+    "candidateId": 1,
+    "fullName": "Juan Pérez",
+    "averageScore": 8.5,
+    "applicationId": 101,
+    "currentInterviewStep": "Aplicación Inicial"
+  },
+  {
+    "candidateId": 2,
+    "fullName": "María García",
+    "averageScore": 9.2,
+    "applicationId": 102,
+    "currentInterviewStep": "Screening"
+  },
+  {
+    "candidateId": 3,
+    "fullName": "Carlos López",
+    "averageScore": 7.8,
+    "applicationId": 103,
+    "currentInterviewStep": "Entrevista Técnica"
+  }
+]
