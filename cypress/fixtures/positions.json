@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Senior Frontend Developer",
+    "isVisible": true
+  },
+  {
+    "id": 2,
+    "title": "Backend Developer",
+    "isVisible": true
+  },
+  {
+    "id": 3,
+    "title": "DevOps Engineer",
+    "isVisible": true
+  }
+]

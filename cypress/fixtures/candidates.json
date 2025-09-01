@@ -1,0 +1,30 @@
+[
+  {
+    "candidateId": 1,
+    "applicationId": 101,
+    "fullName": "Juan Pérez García",
+    "currentInterviewStep": "Applied",
+    "averageScore": 0
+  },
+  {
+    "candidateId": 2,
+    "applicationId": 102,
+    "fullName": "María López Rodríguez",
+    "currentInterviewStep": "Phone Screening",
+    "averageScore": 8.5
+  },
+  {
+    "candidateId": 3,
+    "applicationId": 103,
+    "fullName": "Carlos Martín Sánchez",
+    "currentInterviewStep": "Technical Interview",
+    "averageScore": 7.2
+  },
+  {
+    "candidateId": 4,
+    "applicationId": 104,
+    "fullName": "Ana Fernández Torres",
+    "currentInterviewStep": "Final Interview",
+    "averageScore": 9.1
+  }
+]
