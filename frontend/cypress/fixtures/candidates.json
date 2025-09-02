@@ -1,0 +1,38 @@
+[
+  {
+    "candidateId": 1,
+    "applicationId": 101,
+    "fullName": "Juan Pérez",
+    "currentInterviewStep": "Screening inicial",
+    "averageScore": 4
+  },
+  {
+    "candidateId": 2,
+    "applicationId": 102,
+    "fullName": "María García",
+    "currentInterviewStep": "Entrevista técnica",
+    "averageScore": 5
+  },
+  {
+    "candidateId": 3,
+    "applicationId": 103,
+    "fullName": "Carlos López",
+    "currentInterviewStep": "Screening inicial",
+    "averageScore": 3
+  },
+  {
+    "candidateId": 4,
+    "applicationId": 104,
+    "fullName": "Ana Martínez",
+    "currentInterviewStep": "Entrevista final",
+    "averageScore": 4
+  },
+  {
+    "candidateId": 5,
+    "applicationId": 105,
+    "fullName": "Roberto Silva",
+    "currentInterviewStep": "Contratado",
+    "averageScore": 5
+  }
+]
+

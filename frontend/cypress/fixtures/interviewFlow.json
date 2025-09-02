@@ -1,0 +1,30 @@
+{
+  "interviewFlow": {
+    "positionName": "Desarrollador Frontend React",
+    "interviewFlow": {
+      "interviewSteps": [
+        {
+          "id": 1,
+          "name": "Screening inicial",
+          "orderIndex": 1
+        },
+        {
+          "id": 2,
+          "name": "Entrevista técnica",
+          "orderIndex": 2
+        },
+        {
+          "id": 3,
+          "name": "Entrevista final",
+          "orderIndex": 3
+        },
+        {
+          "id": 4,
+          "name": "Contratado",
+          "orderIndex": 4
+        }
+      ]
+    }
+  }
+}
+

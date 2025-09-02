@@ -29,6 +29,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --config jest.config.js",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:e2e": "cypress run --spec 'cypress/e2e/**/*.cy.js'",
+    "test:e2e:headed": "cypress run --headed --spec 'cypress/e2e/**/*.cy.js'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -48,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^15.0.0"
   }
 }
