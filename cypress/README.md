@@ -138,8 +138,8 @@ docker ps
 docker-compose restart db
 
 # Reset database with fresh seed data
-cd backend
-npx prisma migrate reset --force
+cd backend &&
+npx prisma migrate reset --force &&
 npx prisma db seed
 ```
 

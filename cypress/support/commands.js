@@ -140,20 +140,59 @@ Cypress.Commands.add('getCandidateStage', (candidateId) => {
     .invoke('text')
 })
 
-// Command to verify candidate is in expected stage
-Cypress.Commands.add('verifyCandidateInStage', (candidateId, expectedStage) => {
-  cy.get(`[data-candidate-id="${candidateId}"]`)
-    .parents('[data-testid="stage-column"]')
-    .find('[data-testid="stage-header"]')
-    .invoke('text')
-    .then((actualStage) => {
-      cy.log(`🔍 Candidate ${candidateId} is currently in: "${actualStage}", expected: "${expectedStage}"`)
-      if (actualStage !== expectedStage) {
-        cy.log(`❌ MISMATCH: Expected "${expectedStage}" but found "${actualStage}"`)
+// Custom command to get current candidate data dynamically
+Cypress.Commands.add('getCandidateData', (positionId = 1) => {
+  return cy.request({
+    method: 'GET',
+    url: `${Cypress.env('apiUrl')}/positions/${positionId}/candidates`,
+    failOnStatusCode: false
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.body
+    }
+    return []
+  })
+})
+
+// Custom command to get candidates by stage dynamically
+Cypress.Commands.add('getCandidatesByStage', (positionId = 1) => {
+  return cy.getCandidateData(positionId).then((candidates) => {
+    const candidatesByStage = {}
+    candidates.forEach(candidate => {
+      const stageName = candidate.currentInterviewStep || 'Unknown'
+      if (!candidatesByStage[stageName]) {
+        candidatesByStage[stageName] = []
       }
+      candidatesByStage[stageName].push({
+        id: candidate.candidateId.toString(),
+        name: candidate.fullName,
+        stage: stageName,
+        applicationId: candidate.applicationId
+      })
     })
-    .get(`[data-candidate-id="${candidateId}"]`)
-    .parents('[data-testid="stage-column"]')
-    .find('[data-testid="stage-header"]')
-    .should('contain.text', expectedStage)
+    return candidatesByStage
+  })
+})
+
+// Custom command to get a candidate from a specific stage
+Cypress.Commands.add('getCandidateFromStage', (stageName, positionId = 1) => {
+  return cy.getCandidatesByStage(positionId).then((candidatesByStage) => {
+    const candidates = candidatesByStage[stageName] || []
+    if (candidates.length === 0) {
+      throw new Error(`No candidates found in stage: ${stageName}`)
+    }
+    return candidates[0] // Return first candidate from the stage
+  })
+})
+
+// Custom command to verify candidate is in specific stage
+Cypress.Commands.add('verifyCandidateInStage', (candidateId, expectedStage) => {
+  cy.log(`🔍 Verifying candidate ${candidateId} is in stage: ${expectedStage}`)
+  
+  cy.get(`[data-candidate-id="${candidateId}"]`).should('be.visible').then(($candidate) => {
+    // Get the parent stage column
+    cy.wrap($candidate).closest('[data-testid="stage-column"]').within(() => {
+      cy.get('[data-testid="stage-header"]').should('contain.text', expectedStage)
+    })
+  })
 })

@@ -3,6 +3,34 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  // Clear existing data to ensure clean seed
+  await prisma.interview.deleteMany({});
+  await prisma.application.deleteMany({});
+  await prisma.employee.deleteMany({});
+  await prisma.position.deleteMany({});
+  await prisma.interviewStep.deleteMany({});
+  await prisma.interviewType.deleteMany({});
+  await prisma.interviewFlow.deleteMany({});
+  await prisma.resume.deleteMany({});
+  await prisma.workExperience.deleteMany({});
+  await prisma.education.deleteMany({});
+  await prisma.candidate.deleteMany({});
+  await prisma.company.deleteMany({});
+
+  // Reset auto-increment sequences to start from 1
+  await prisma.$executeRaw`ALTER SEQUENCE "Company_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "Candidate_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "Education_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "WorkExperience_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "Resume_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "InterviewFlow_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "InterviewType_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "InterviewStep_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "Position_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "Employee_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "Application_id_seq" RESTART WITH 1`;
+  await prisma.$executeRaw`ALTER SEQUENCE "Interview_id_seq" RESTART WITH 1`;
+
   // Create Companies
   const company1 = await prisma.company.create({
     data: {
