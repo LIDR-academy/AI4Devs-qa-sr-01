@@ -1,24 +1,20 @@
 describe('Position Page Load Tests', () => {
   let testData
 
-  before(() => {
-    // Load test data fixture
-    cy.fixture('test-position-data').then((data) => {
-      testData = data
-    })
+  before(() => {   
+    cy.setupTestEnvironment()
   })
 
   beforeEach(() => {
-    // Set up test environment
-    cy.setupTestEnvironment()
-    
-    // Intercept API calls for monitoring
     cy.interceptPositionAPIs(1)
   })
 
   describe('Position Title Display', () => {
-    it('should display the position title correctly', () => {
+    it('should display the position title correctly and handle loading states', () => {
       cy.visitPosition(1)
+      
+      // Initially, title should exist
+      cy.get('[data-testid="position-title"]').should('exist')
       
       // Wait for API calls to complete
       cy.wait('@getInterviewFlow', { timeout: 15000 })
@@ -26,34 +22,7 @@ describe('Position Page Load Tests', () => {
       cy.wait(1000)
       cy.get('[data-testid="stage-column"]').should('have.length.greaterThan', 0)
       
-      // Verify position title is displayed and not empty
-      cy.get('[data-testid="position-title"]')
-        .should('be.visible')
-        .and('not.be.empty')
-    })
-
-    it('should handle position title with special characters', () => {
-      // This test would require seeding different data
-      // For now, verify the title element exists and is not empty
-      cy.visitPosition(1)
-      cy.wait('@getInterviewFlow', { timeout: 15000 })
-      cy.wait('@getCandidates', { timeout: 15000 })
-      cy.wait(1000)
-      
-      cy.get('[data-testid="position-title"]')
-        .should('be.visible')
-        .and('not.be.empty')
-    })
-
-    it('should display loading state before title appears', () => {
-      cy.visitPosition(1)
-      
-      // Initially, title should be empty or show loading
-      cy.get('[data-testid="position-title"]')
-        .should('exist')
-      
-      // After API call, title should be populated
-      cy.wait('@getInterviewFlow')
+      // After API call, title should be populated and visible
       cy.get('[data-testid="position-title"]')
         .should('be.visible')
         .and('not.be.empty')

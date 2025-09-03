@@ -13,10 +13,6 @@ describe('LTI Core Functionality Tests', () => {
       // Basic page load verification
       cy.get('body').should('be.visible')
       cy.url().should('include', `/positions/${positionId}`)
-    })
-
-    it('should have proper page structure', () => {
-      cy.visit(`/positions/${positionId}`)
       
       // Verify essential elements exist
       cy.get('[data-testid="position-title"]').should('exist')

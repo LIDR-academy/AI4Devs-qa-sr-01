@@ -25,14 +25,14 @@ describe('Position Details - Drag and Drop Functionality (Dynamic)', () => {
   })
 
   beforeEach(() => {
+    // Re-setup interceptors for each test to ensure they're active
+    cy.interceptPositionAPIs(positionId)
+    
     // Refresh candidate data before each test to get current state
     cy.getCandidatesByStage(positionId).then((data) => {
       candidatesByStage = data
       cy.log('📊 Current candidates by stage:', candidatesByStage)
     })
-    
-    // Only refresh API interceptions between tests (much faster)
-    cy.interceptPositionAPIs(positionId)
     
     // Ensure we're on the correct page (in case of navigation)
     cy.url().then((url) => {
@@ -301,9 +301,15 @@ describe('Position Details - Drag and Drop Functionality (Dynamic)', () => {
         
         const candidate = allCandidates[0]
         const candidateId = candidate.id
-        const targetStageIndex = 1 // Technical Interview
+        const currentStage = candidate.stage
         
-        cy.log(`🧪 TEST: Validating API request for candidate ${candidateId} (${candidate.name})`)
+        // Calculate target stage index: +1 if at index 0, -1 if at index 3, +1 otherwise
+        const stageNames = ['Initial Screening', 'Technical Interview', 'Final Interview', 'Offer']
+        const currentStageIndex = stageNames.indexOf(currentStage)
+        const targetStageIndex = currentStageIndex === 0 ? 1 : currentStageIndex === 3 ? 2 : currentStageIndex + 1
+        const targetStageName = stageNames[targetStageIndex]
+        
+        cy.log(`🧪 TEST: Validating API request for candidate ${candidateId} (${candidate.name}) from ${currentStage} to ${targetStageName}`)
         
         cy.dragCandidateToStage(candidateId, targetStageIndex)
         

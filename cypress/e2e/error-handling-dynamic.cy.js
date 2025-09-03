@@ -14,7 +14,6 @@ describe('Position Details - Error Handling (Dynamic)', () => {
       cy.log('📊 Current candidates by stage:', candidatesByStage)
     })
     
-    cy.setupTestEnvironment()
     cy.interceptPositionAPIs(positionId)
   })
 
