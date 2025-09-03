@@ -206,8 +206,15 @@ async function main() {
 
   const interviewType3 = await prisma.interviewType.create({
     data: {
-      name: 'Hiring manager interview',
-      description: 'Assess cultural fit and professional goals',
+      name: 'Final Interview',
+      description: 'Final assessment with senior management',
+    },
+  });
+
+  const interviewType4 = await prisma.interviewType.create({
+    data: {
+      name: 'Offer',
+      description: 'Offer negotiation and finalization',
     },
   });
 
@@ -236,8 +243,54 @@ async function main() {
     data: {
       interviewFlowId: interviewFlow1.id,
       interviewTypeId: interviewType3.id,
-      name: 'Manager Interview',
+      name: 'Final Interview',
+      orderIndex: 3,
+    },
+  });
+
+  const interviewStep4 = await prisma.interviewStep.create({
+    data: {
+      interviewFlowId: interviewFlow1.id,
+      interviewTypeId: interviewType4.id,
+      name: 'Offer',
+      orderIndex: 4,
+    },
+  });
+
+  // Create Interview Steps for InterviewFlow2 (Data Scientist)
+  const interviewStep5 = await prisma.interviewStep.create({
+    data: {
+      interviewFlowId: interviewFlow2.id,
+      interviewTypeId: interviewType1.id,
+      name: 'Initial Screening',
+      orderIndex: 1,
+    },
+  });
+
+  const interviewStep6 = await prisma.interviewStep.create({
+    data: {
+      interviewFlowId: interviewFlow2.id,
+      interviewTypeId: interviewType2.id,
+      name: 'Technical Interview',
       orderIndex: 2,
+    },
+  });
+
+  const interviewStep7 = await prisma.interviewStep.create({
+    data: {
+      interviewFlowId: interviewFlow2.id,
+      interviewTypeId: interviewType3.id,
+      name: 'Final Interview',
+      orderIndex: 3,
+    },
+  });
+
+  const interviewStep8 = await prisma.interviewStep.create({
+    data: {
+      interviewFlowId: interviewFlow2.id,
+      interviewTypeId: interviewType4.id,
+      name: 'Offer',
+      orderIndex: 4,
     },
   });
 
@@ -260,40 +313,41 @@ async function main() {
     },
   });
 
-  // Create Applications
+  // Create Applications for Position 1 (matching fixture data expectations)
   const application1 = await prisma.application.create({
     data: {
       positionId: position1.id,
       candidateId: candidate1.id,
       applicationDate: new Date(),
-      currentInterviewStep: interviewStep2.id,
+      currentInterviewStep: interviewStep1.id, // Initial Screening
     },
   });
 
   const application2 = await prisma.application.create({
     data: {
-      positionId: position2.id,
-      candidateId: candidate1.id,
+      positionId: position1.id,
+      candidateId: candidate2.id,
       applicationDate: new Date(),
-      currentInterviewStep: interviewStep2.id,
+      currentInterviewStep: interviewStep2.id, // Technical Interview
     },
   });
 
   const application3 = await prisma.application.create({
     data: {
       positionId: position1.id,
-      candidateId: candidate2.id,
+      candidateId: candidate3.id,
       applicationDate: new Date(),
-      currentInterviewStep: interviewStep2.id,
+      currentInterviewStep: interviewStep1.id, // Initial Screening
     },
   });
 
+  // Create Application for Position 2 (Data Scientist)
   const application4 = await prisma.application.create({
     data: {
-      positionId: position1.id,
-      candidateId: candidate3.id,
+      positionId: position2.id,
+      candidateId: candidate1.id,
       applicationDate: new Date(),
-      currentInterviewStep: interviewStep1.id,
+      currentInterviewStep: interviewStep5.id, // Initial Screening for Data Scientist
     },
   });
 

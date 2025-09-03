@@ -73,6 +73,7 @@ npm start
 #### Option B: Manual Execution
 ```bash
 # Interactive mode (for development)
+# run from the root of the project
 npx cypress open
 
 # Headless mode (for CI/CD)

@@ -6,6 +6,8 @@
     "schema": "backend/prisma/schema.prisma"
   },
   "devDependencies": {
-    "cypress": "^15.0.0"
+    "@4tw/cypress-drag-drop": "^2.3.0",
+    "cypress": "^13.17.0",
+    "cypress-real-events": "^1.14.0"
   }
 }
