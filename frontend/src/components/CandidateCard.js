@@ -7,6 +7,9 @@ const CandidateCard = ({ candidate, index, onClick }) => (
         {(provided) => (
             <Card
                 className="mb-2"
+                data-testid="candidate-card"
+                data-candidate-id={candidate.id}
+                data-candidate-name={candidate.name}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
