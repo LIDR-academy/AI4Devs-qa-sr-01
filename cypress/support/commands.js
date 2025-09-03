@@ -69,9 +69,31 @@ Cypress.Commands.add('dragCandidateToStage', (candidateId, targetStageIndex) => 
   
   const sourceSelector = `[data-candidate-id="${candidateId}"]`
   
-  // Find current stage of the candidate
-  cy.get(sourceSelector).parents('[data-testid="stage-column"]').then(($sourceStage) => {
-    const sourceStageIndex = $sourceStage.index()
+  // More robust stage detection approach
+  cy.get('[data-testid="stage-column"]').then(($allStages) => {
+    let sourceStageIndex = -1
+    
+    // Find which stage contains the candidate
+    for (let i = 0; i < $allStages.length; i++) {
+      const $stage = Cypress.$($allStages[i])
+      const candidateInStage = $stage.find(`[data-candidate-id="${candidateId}"]`)
+      if (candidateInStage.length > 0) {
+        sourceStageIndex = i
+        break
+      }
+    }
+    
+    // Debug: Log stage information
+    const stageNames = Array.from($allStages).map(stage => 
+      Cypress.$(stage).find('[data-testid="stage-header"]').text().trim()
+    )
+    cy.log(`🔍 Available stages: ${stageNames.join(', ')}`)
+    cy.log(`🔍 Candidate ${candidateId} is currently in stage ${sourceStageIndex} (${stageNames[sourceStageIndex]})`)
+    cy.log(`🔍 Target stage is ${targetStageIndex} (${stageNames[targetStageIndex]})`)
+    
+    if (sourceStageIndex === -1) {
+      throw new Error(`Candidate ${candidateId} not found in any stage`)
+    }
     
     if (sourceStageIndex === targetStageIndex) {
       cy.log(`⚠️ Candidate ${candidateId} is already in target stage ${targetStageIndex}`)
