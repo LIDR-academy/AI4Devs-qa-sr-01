@@ -1,0 +1,31 @@
+{
+  "interviewFlow": {
+    "positionName": "Frontend Developer - Test Position",
+    "interviewFlow": {
+      "id": 1,
+      "interviewSteps": [
+        {
+          "id": 1,
+          "name": "Aplicación",
+          "orderIndex": 0
+        },
+        {
+          "id": 2,
+          "name": "Entrevista Técnica",
+          "orderIndex": 1
+        },
+        {
+          "id": 3,
+          "name": "Entrevista HR",
+          "orderIndex": 2
+        },
+        {
+          "id": 4,
+          "name": "Contratado",
+          "orderIndex": 3
+        }
+      ]
+    }
+  }
+}
+
