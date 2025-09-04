@@ -7,6 +7,7 @@ const CandidateCard = ({ candidate, index, onClick }) => (
         {(provided) => (
             <Card
                 className="mb-2"
+                data-cy="candidate-card"
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
@@ -15,7 +16,7 @@ const CandidateCard = ({ candidate, index, onClick }) => (
                 <Card.Body>
                     <Card.Title>{candidate.name}</Card.Title>
                     <div>
-                        {Array.from({ length: candidate.rating }).map((_, i) => (
+                        {Array.from({ length: Math.floor(candidate.rating || candidate.averageScore || 0) }).map((_, i) => (
                             <span key={i} role="img" aria-label="rating">🟢</span>
                         ))}
                     </div>
