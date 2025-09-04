@@ -26,11 +26,6 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return true
 })
 
-// Configuración global para requests
-beforeEach(() => {
-  // Interceptar requests comunes para mejor control
-  cy.intercept('GET', '**/positions/**/interviewFlow').as('getInterviewFlow')
-  cy.intercept('GET', '**/positions/**/candidates').as('getCandidates')
-  cy.intercept('PUT', '**/candidates/**').as('updateCandidate')
-})
+// Sin intercepts globales para evitar conflictos
+// Los tests individuales definirán sus propios intercepts si los necesitan
 

@@ -14,46 +14,43 @@ const PositionsDetails = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchInterviewFlow = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:3010/positions/${id}/interviewFlow`);
-                const data = await response.json();
-                const interviewSteps = data.interviewFlow.interviewFlow.interviewSteps.map(step => ({
+                // Primero obtener el flujo de entrevistas
+                const flowResponse = await fetch(`http://localhost:3010/positions/${id}/interviewFlow`);
+                const flowData = await flowResponse.json();
+                const interviewSteps = flowData.interviewFlow.interviewFlow.interviewSteps.map(step => ({
                     title: step.name,
                     id: step.id,
                     candidates: []
                 }));
-                setStages(interviewSteps);
-                setPositionName(data.interviewFlow.positionName);
+                setPositionName(flowData.interviewFlow.positionName);
+                
+                // Luego obtener los candidatos
+                const candidatesResponse = await fetch(`http://localhost:3010/positions/${id}/candidates`);
+                const candidates = await candidatesResponse.json();
+                
+                // Mapear candidatos a las etapas correspondientes
+                const stagesWithCandidates = interviewSteps.map(stage => ({
+                    ...stage,
+                    candidates: candidates
+                        .filter(candidate => candidate.currentInterviewStep === stage.title)
+                        .map(candidate => ({
+                            id: candidate.candidateId.toString(),
+                            name: candidate.fullName,
+                            rating: candidate.averageScore,
+                            applicationId: candidate.applicationId
+                        }))
+                }));
+                
+                setStages(stagesWithCandidates);
+                console.log('Stages with candidates loaded:', stagesWithCandidates);
             } catch (error) {
-                console.error('Error fetching interview flow:', error);
+                console.error('Error fetching data:', error);
             }
         };
 
-        const fetchCandidates = async () => {
-            try {
-                const response = await fetch(`http://localhost:3010/positions/${id}/candidates`);
-                const candidates = await response.json();
-                setStages(prevStages =>
-                    prevStages.map(stage => ({
-                        ...stage,
-                        candidates: candidates
-                            .filter(candidate => candidate.currentInterviewStep === stage.title)
-                            .map(candidate => ({
-                                id: candidate.candidateId.toString(),
-                                name: candidate.fullName,
-                                rating: candidate.averageScore,
-                                applicationId: candidate.applicationId
-                            }))
-                    }))
-                );
-            } catch (error) {
-                console.error('Error fetching candidates:', error);
-            }
-        };
-
-        fetchInterviewFlow();
-        fetchCandidates();
+        fetchData();
     }, [id]);
 
     const updateCandidateStep = async (candidateId, applicationId, newStep) => {

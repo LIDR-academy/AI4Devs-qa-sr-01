@@ -664,6 +664,8 @@ npx cypress run --browser chrome
 
 # Generar reporte
 npx cypress run --reporter mochawesome
+
+npm run cy:open
 ```
 
 ## 📊 Verificación y Debugging
