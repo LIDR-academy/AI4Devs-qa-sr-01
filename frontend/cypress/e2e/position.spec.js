@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 // Importar funciones auxiliares desde el nuevo sistema modular
 import { 
   setupPositionsMocks, 
