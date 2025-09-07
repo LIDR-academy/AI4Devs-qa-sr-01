@@ -1,0 +1,39 @@
+{
+  "interviewFlow": {
+    "positionName": "Senior Full-Stack Engineer",
+    "interviewFlow": {
+      "id": 1,
+      "description": "Standard development interview process",
+      "interviewSteps": [
+        {
+          "id": 1,
+          "interviewFlowId": 1,
+          "interviewTypeId": 1,
+          "name": "Revisión CV",
+          "orderIndex": 1
+        },
+        {
+          "id": 2,
+          "interviewFlowId": 1,
+          "interviewTypeId": 2,
+          "name": "Entrevista Técnica",
+          "orderIndex": 2
+        },
+        {
+          "id": 3,
+          "interviewFlowId": 1,
+          "interviewTypeId": 3,
+          "name": "Entrevista Final",
+          "orderIndex": 3
+        },
+        {
+          "id": 4,
+          "interviewFlowId": 1,
+          "interviewTypeId": 4,
+          "name": "Contratado",
+          "orderIndex": 4
+        }
+      ]
+    }
+  }
+}
