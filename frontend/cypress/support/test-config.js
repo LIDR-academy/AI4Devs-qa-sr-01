@@ -77,7 +77,10 @@ export const EXTENDABLE_TEST_DATA = {
       status: 'Contratado'
     }
     // Fácil agregar nuevas posiciones aquí
-  }
+  },
+  
+  // ID de posición por defecto para tests
+  positionId: 1
 }
 
 // Configuración de selectores CSS (centralizada para fácil mantenimiento)

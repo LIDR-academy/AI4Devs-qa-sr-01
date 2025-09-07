@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  backend-test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3010:3010"
+    environment:
+      - NODE_ENV=test
+      - DATABASE_URL=postgresql://test:test@postgres-test:5432/test_db
+    depends_on:
+      - postgres-test
+    networks:
+      - test-network
+
+  frontend-test:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://backend-test:3010
+    depends_on:
+      - backend-test
+    networks:
+      - test-network
+
+  postgres-test:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=test_db
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    networks:
+      - test-network
+
+  cypress:
+    image: cypress/included:13.0.0
+    working_dir: /e2e
+    volumes:
+      - ./frontend:/e2e
+      - ./frontend/cypress/screenshots:/e2e/cypress/screenshots
+      - ./frontend/cypress/videos:/e2e/cypress/videos
+    environment:
+      - CYPRESS_baseUrl=http://frontend-test:3000
+    depends_on:
+      - frontend-test
+      - backend-test
+    networks:
+      - test-network
+    command: npx cypress run --browser chrome --headless
+
+volumes:
+  postgres_test_data:
+
+networks:
+  test-network:
+    driver: bridge

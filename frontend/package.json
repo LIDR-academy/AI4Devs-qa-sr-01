@@ -38,7 +38,17 @@
     "e2e:smoke": "cypress run --spec \"cypress/e2e/smoke-test.cy.ts\" --headless",
     "e2e:positions": "cypress run --spec \"cypress/e2e/positions.cy.ts\" --headless",
     "e2e:position-spec": "cypress run --spec \"cypress/e2e/position.spec.js\" --headless",
-    "test:cypress": "powershell -ExecutionPolicy Bypass -File scripts/test-e2e.ps1"
+    "test:cypress": "powershell -ExecutionPolicy Bypass -File scripts/test-e2e.ps1",
+    "test:ci": "cypress run --browser chrome --headless --config baseUrl=http://localhost:3000",
+    "test:docker": "docker-compose -f docker-compose.test.yml up --abort-on-container-exit",
+    "test:all": "npm run test && npm run test:ci",
+    "test:dev": "cypress run --env-file cypress.env.development",
+    "test:prod": "cypress run --env-file cypress.env.production",
+    "test:env:dev": "cypress open --env-file cypress.env.development",
+    "test:env:test": "cypress open --env-file cypress.env.test",
+    "test:env:prod": "cypress open --env-file cypress.env.production",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +69,7 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^15.0.0"
+    "cypress": "^15.0.0",
+    "@types/node": "^20.0.0"
   }
 }

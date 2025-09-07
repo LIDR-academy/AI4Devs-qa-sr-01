@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-// Importar funciones auxiliares
+// Importar funciones auxiliares desde el nuevo sistema modular
 import { 
   setupPositionsMocks, 
   setupPositionDetailsMocks, 
@@ -23,7 +23,7 @@ import {
   setupApiTest,
   TEST_DATA,
   API_ENDPOINTS
-} from '../support/position-helpers'
+} from '../support/helpers'
 
 describe('Position Page Load Tests', () => {
   beforeEach(() => {
