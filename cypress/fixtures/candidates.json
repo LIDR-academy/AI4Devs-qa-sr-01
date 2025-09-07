@@ -1,0 +1,31 @@
+[
+  {
+    "candidateId": 1,
+    "fullName": "Ana García López",
+    "currentInterviewStep": "Aplicación",
+    "averageScore": 4,
+    "applicationId": 101
+  },
+  {
+    "candidateId": 2,
+    "fullName": "Carlos Martínez Silva",
+    "currentInterviewStep": "Entrevista Técnica",
+    "averageScore": 5,
+    "applicationId": 102
+  },
+  {
+    "candidateId": 3,
+    "fullName": "María Rodriguez González",
+    "currentInterviewStep": "Entrevista HR",
+    "averageScore": 3,
+    "applicationId": 103
+  },
+  {
+    "candidateId": 4,
+    "fullName": "Pedro Sánchez Ruiz",
+    "currentInterviewStep": "Aplicación",
+    "averageScore": 4,
+    "applicationId": 104
+  }
+]
+
